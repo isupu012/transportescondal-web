@@ -323,12 +323,13 @@ img, svg { max-width: 100%; display: block; }
   inset: 0;
   background: url('hero.jpg') center / cover no-repeat;
   z-index: 0;
-  animation: hero-kenburns 26s ease-in-out infinite alternate;
+  animation: hero-kenburns 22s ease-in-out infinite alternate;
   will-change: transform;
+  transform-origin: 60% 50%;
 }
 @keyframes hero-kenburns {
-  from { transform: scale(1) translate(0, 0); }
-  to   { transform: scale(1.07) translate(-1%, -1%); }
+  from { transform: scale(1)    translate(0, 0); }
+  to   { transform: scale(1.15) translate(-2%, -1.5%); }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero::before { animation: none; }
@@ -349,7 +350,7 @@ img, svg { max-width: 100%; display: block; }
   background:
     radial-gradient(900px 500px at 85% 10%, rgba(96, 165, 250, .22), transparent 60%),
     radial-gradient(700px 400px at 5% 60%, rgba(59, 130, 246, .16), transparent 60%),
-    linear-gradient(to right, rgba(2, 6, 23, .96) 0%, rgba(8, 12, 28, .92) 45%, rgba(15, 23, 42, .82) 80%, rgba(15, 23, 42, .75) 100%);
+    linear-gradient(to right, rgba(2, 6, 23, .92) 0%, rgba(8, 12, 28, .86) 45%, rgba(15, 23, 42, .75) 80%, rgba(15, 23, 42, .68) 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -1295,10 +1296,10 @@ body.has-pointer .cursor-blob {
   .hero::before {
     background: url('hero.jpg') 75% center / cover no-repeat !important;
   }
-  /* Mobile: overlay aún más oscuro para máxima legibilidad sobre el camión */
+  /* Mobile: overlay oscuro pero dejando ver el camión */
   .hero .hero-bg {
     background:
-      linear-gradient(180deg, rgba(2, 6, 23, .98) 0%, rgba(8, 12, 28, .95) 50%, rgba(15, 23, 42, .88) 100%) !important;
+      linear-gradient(180deg, rgba(2, 6, 23, .94) 0%, rgba(8, 12, 28, .88) 50%, rgba(15, 23, 42, .80) 100%) !important;
   }
   .hero-inner { padding-bottom: 0 !important; padding-top: 0 !important; }
   /* Distribuye eyebrow ARRIBA, h1 CENTRO, lead ABAJO — mejor reparto
