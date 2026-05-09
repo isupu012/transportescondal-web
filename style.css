@@ -1068,8 +1068,8 @@ body.has-pointer .cursor-blob {
   .container { padding: 0 18px; }
 
   /* Topbar compacto + botón Acceso solo icono + hamburger */
-  .topbar-inner { height: 52px; gap: 8px; }
-  .brand-logo { height: 40px; }
+  .topbar-inner { height: 64px; gap: 8px; padding: 0 18px; }
+  .brand-logo { height: 48px; }
   .topbar .btn-access {
     padding: 8px;
     width: 38px; height: 38px;
