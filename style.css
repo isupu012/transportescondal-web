@@ -1076,17 +1076,16 @@ body.has-pointer .cursor-blob {
     padding: 0 18px;
     align-items: flex-end;
   }
-  .brand-logo { height: 48px; }
-  .topbar .btn-access { width: 36px; height: 36px; padding: 7px; border-radius: 9px; }
-  .topbar .btn-access .btn-user { width: 16px; height: 16px; }
-  .hamburger { width: 36px; height: 36px; border-radius: 9px; }
-  .hamburger span { width: 17px; }
+  .brand-logo { height: 44px; }
   .topbar .btn-access {
-    padding: 8px;
-    width: 38px; height: 38px;
-    border-radius: 10px;
+    width: 44px; height: 44px;
+    padding: 10px;
+    border-radius: 12px;
     gap: 0;
   }
+  .topbar .btn-access .btn-user { width: 18px; height: 18px; }
+  .hamburger { width: 44px; height: 44px; border-radius: 12px; }
+  .hamburger span { width: 18px; }
   .topbar .btn-access .btn-text,
   .topbar .btn-access .btn-arrow { display: none; }
   .topbar .btn-access .btn-user { display: block; }
