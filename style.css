@@ -5,7 +5,7 @@
 
 :root {
   --bg: #ffffff;
-  --bg-soft: #f8fafc;
+  --bg-soft: #eef2f8;
   --bg-dark: #0f172a;
   --text: #0f172a;
   --text-soft: #475569;
@@ -314,6 +314,8 @@ img, svg { max-width: 100%; display: block; }
   background: var(--bg-soft);
   position: relative;
   overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 /* Sutil glow azul en lo alto de las secciones claras (echo del hero) */
 .section-light::before {
@@ -327,168 +329,395 @@ img, svg { max-width: 100%; display: block; }
 }
 .section-light > .container { position: relative; z-index: 1; }
 
-/* ── Servicios ──────────────────────────────────────────── */
-.cards {
+/* ── Servicios — grid 4 cols × 2 filas, todas iguales ────── */
+.services-bento {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  margin-top: 24px;
-  counter-reset: card;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 56px;
 }
-.card {
+.svc {
   position: relative;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 40px 32px 36px;
-  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
-  box-shadow: var(--shadow-sm);
+  padding: 32px 28px 30px;
   overflow: hidden;
-  counter-increment: card;
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
 }
-/* Línea de gradiente arriba que aparece en hover (conecta con la paleta del hero) */
-.card::before {
+/* SPOTLIGHT EFFECT: un haz de luz azul que sigue al cursor sobre la
+   card. JS actualiza --mx/--my en mousemove. Por defecto invisible. */
+.svc::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%),
+                              rgba(59, 130, 246, .14),
+                              rgba(59, 130, 246, .04) 28%,
+                              transparent 55%);
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.svc:hover::before { opacity: 1; }
+/* Línea fina de gradient arriba que aparece al hover */
+.svc::after {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 3px;
+  height: 2px;
   background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--teal));
   opacity: 0;
-  transition: opacity .3s ease;
+  transition: opacity .35s ease;
+  z-index: 2;
 }
-/* Numerito sutil en la esquina (01, 02, 03…) */
-.card::after {
-  content: '0' counter(card);
-  position: absolute;
-  top: 24px; right: 28px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-mute);
-  letter-spacing: 1px;
-  opacity: .7;
-}
-.card:hover {
-  border-color: transparent;
-  box-shadow:
-    0 24px 48px -16px rgba(30, 64, 175, .25),
-    0 0 0 1px rgba(30, 64, 175, .08);
+.svc:hover {
+  border-color: rgba(30, 64, 175, .18);
   transform: translateY(-4px);
+  box-shadow:
+    0 28px 56px -18px rgba(30, 64, 175, .22),
+    0 0 0 1px rgba(30, 64, 175, .06);
 }
-.card:hover::before { opacity: 1; }
-.card:hover .card-icon {
-  transform: scale(1.05) rotate(-3deg);
-  box-shadow: 0 12px 24px -8px rgba(30, 64, 175, .35);
+.svc:hover::after { opacity: 1; }
+.svc:hover .svc-icon-wrap {
+  transform: scale(1.06) rotate(-4deg);
+  box-shadow: 0 14px 28px -8px rgba(30, 64, 175, .4);
 }
 
-.card-icon {
-  width: 60px; height: 60px;
-  border-radius: 16px;
+/* Contenido por encima del spotlight */
+.svc > * { position: relative; z-index: 1; }
+
+.svc-icon-wrap {
+  width: 52px; height: 52px;
+  border-radius: 13px;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
-  box-shadow: 0 8px 20px -6px rgba(30, 64, 175, .3);
-  transition: transform .35s ease, box-shadow .35s ease;
+  margin-bottom: 22px;
+  box-shadow: 0 8px 20px -6px rgba(30, 64, 175, .35);
+  transition: transform .4s ease, box-shadow .4s ease;
+  flex-shrink: 0;
 }
-.card-icon svg { width: 28px; height: 28px; stroke-width: 1.8; }
+.svc-icon-wrap svg { width: 24px; height: 24px; stroke-width: 1.6; }
 
-.card h3 {
-  font-size: 19px;
+.svc h3 {
+  font-size: 18px;
   margin: 0 0 10px;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
 }
-.card p {
+.svc p {
   margin: 0;
   color: var(--text-soft);
-  font-size: 15px;
-  line-height: 1.65;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.svc p strong {
+  color: var(--text);
+  font-weight: 700;
 }
 
-/* ── Zonas ──────────────────────────────────────────────── */
-.zones-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 64px;
-  align-items: center;
+@media (max-width: 980px) {
+  .services-bento { grid-template-columns: repeat(2, 1fr); }
 }
-.zones-list {
+@media (max-width: 520px) {
+  .services-bento { grid-template-columns: 1fr; gap: 14px; }
+}
+
+/* ── Zonas — radio de acción + watermark ────────────────── */
+.zones-head {
+  max-width: 720px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+/* Wrap relativo: marca de agua absolute al fondo, SVG del polígono encima. */
+.zones-radius-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  aspect-ratio: 580 / 540;
+}
+.zones-watermark {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  align-content: center;
+  justify-content: center;
+  gap: 4px 14px;
+  padding: 60px 80px;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+  /* Difuminar la marca de agua hacia los bordes: nítida dentro del radio,
+     se desvanece justo donde termina el contorno. Ahora círculo casi
+     perfecto (41% × 41%) para matchear la nueva forma. */
+  mask-image: radial-gradient(circle 41% at 50% 50%, #000 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle 41% at 50% 50%, #000 70%, transparent 100%);
 }
-.zone-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 99px;
-  font-size: 14px;
+.zones-watermark .wm-item {
+  font-size: 13px;
   font-weight: 500;
-  color: var(--text);
-  box-shadow: var(--shadow-sm);
-  transition: all .18s;
+  color: rgba(15, 23, 42, .14);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  line-height: 1.45;
 }
-.zone-chip:hover {
-  border-color: var(--accent-2);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+/* Las top-N reciben un punto más oscuro y peso para que el ojo encuentre
+   las grandes sin perder el efecto de marca de agua. */
+.zones-watermark .wm-item.is-big {
+  font-weight: 600;
+  color: rgba(15, 23, 42, .22);
 }
 
-/* ── Steps ───────────────────────────────────────────────── */
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 24px;
+.zones-radius {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
 }
-.step {
+/* El path se dibuja con stroke-dashoffset al cargar.
+   --path-len lo asigna JS desde getTotalLength(). */
+.radius-shape {
+  filter: drop-shadow(0 16px 36px rgba(30, 64, 175, .18));
+  stroke-dasharray: var(--path-len, 2400);
+  stroke-dashoffset: var(--path-len, 2400);
+  animation: radius-draw 1.6s ease-out 0.2s forwards;
+}
+@keyframes radius-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Aparición escalonada de cada punto + etiqueta (delay vía --d inline). */
+@keyframes city-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.zones-radius .extreme,
+.zones-radius .city-inner {
+  opacity: 0;
+  animation: city-fade-in .5s ease-out forwards;
+  animation-delay: var(--d, 0s);
+}
+
+/* Extremos: protagonistas, color accent, peso 700, pulse sutil tras aparecer */
+.zones-radius .extreme circle {
+  fill: var(--accent-2);
+  stroke: #fff;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 2px 6px rgba(15, 23, 42, .25));
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: pulse-dot 4.5s ease-in-out infinite;
+  animation-delay: calc(var(--d, 0s) + 1s);
+}
+.zones-radius .extreme text {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  fill: var(--text);
+  letter-spacing: -0.015em;
+}
+@keyframes pulse-dot {
+  0%, 75%, 100% { transform: scale(1); }
+  85%           { transform: scale(1.35); }
+}
+
+/* Internas (las "gordas"): más discretas, color secundario */
+.zones-radius .city-inner circle {
+  fill: rgba(30, 64, 175, .55);
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+.zones-radius .city-inner text {
+  font-family: 'Inter', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  fill: var(--text-soft);
+  letter-spacing: -0.01em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radius-shape { animation: none; stroke-dashoffset: 0; }
+  .zones-radius .extreme,
+  .zones-radius .city-inner { opacity: 1; animation: none; }
+  .zones-radius .extreme circle { animation: none; }
+}
+
+.zones-foot {
+  text-align: center;
+  margin: 36px auto 0;
+  color: var(--text-soft);
+  font-size: 15px;
+}
+.zones-foot a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .zones-radius .extreme text { font-size: 11px; }
+  .zones-watermark .wm-item { font-size: 11px; }
+  .zones-watermark { padding: 16px 20px; gap: 3px 10px; }
+}
+
+/* ── Cómo trabajamos — timeline horizontal ───────────────── */
+/* 4 pasos con nodos circulares conectados por una línea de
+   gradient. La línea cruza horizontalmente a la altura de los
+   iconos. Las cards quedan blancas, encima de la línea. */
+.process {
+  --node-size: 72px;
+  list-style: none;
+  margin: 56px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  position: relative;
+}
+/* Línea de conexión: gradient entre el centro del primer y último
+   nodo, a la altura del centro del nodo (top-padding + node/2). */
+.process::before {
+  content: '';
+  position: absolute;
+  top: calc(36px + var(--node-size) / 2 - 1px);
+  left: 12.5%;
+  right: 12.5%;
+  height: 2px;
+  background: linear-gradient(90deg,
+    rgba(30, 64, 175, 0) 0%,
+    rgba(30, 64, 175, .35) 8%,
+    rgba(8, 145, 178, .35) 92%,
+    rgba(8, 145, 178, 0) 100%);
+  z-index: 0;
+}
+
+.step-card {
+  position: relative;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 40px 32px 36px;
-  position: relative;
+  padding: 36px 28px 30px;
   box-shadow: var(--shadow-sm);
-  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
 }
-.step:hover {
+.step-card:hover {
   transform: translateY(-4px);
-  border-color: transparent;
+  border-color: rgba(30, 64, 175, .15);
   box-shadow:
-    0 24px 48px -16px rgba(30, 64, 175, .25),
-    0 0 0 1px rgba(30, 64, 175, .08);
+    0 28px 56px -18px rgba(30, 64, 175, .22),
+    0 0 0 1px rgba(30, 64, 175, .06);
 }
-.step-num {
-  /* Número grande y visible — el step es secuencial, lo merece */
-  display: inline-flex;
+.step-card:hover .step-node {
+  transform: scale(1.05) rotate(-3deg);
+  box-shadow: 0 16px 32px -8px rgba(30, 64, 175, .35);
+}
+
+/* Badge "01-04" arriba a la derecha (decorativo, peso fuerte) */
+.step-badge {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 4px 10px;
+  border-radius: 99px;
+  z-index: 2;
+}
+
+/* Nodo circular con icono — el "punto" de la timeline */
+.step-node {
+  width: var(--node-size);
+  height: var(--node-size);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px; height: 56px;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: #fff;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  border-radius: 16px;
-  margin-bottom: 24px;
-  box-shadow: 0 8px 20px -6px rgba(30, 64, 175, .3);
-  font-feature-settings: 'tnum' 1;
+  margin: 0 auto 22px;
+  box-shadow:
+    0 12px 28px -8px rgba(30, 64, 175, .4),
+    0 0 0 6px rgba(255, 255, 255, 1),
+    0 0 0 7px rgba(30, 64, 175, .12);
+  transition: transform .4s ease, box-shadow .4s ease;
 }
-.step h3 {
+.step-node svg { width: 28px; height: 28px; stroke-width: 1.7; }
+
+.step-card h3 {
   font-size: 19px;
   margin: 0 0 10px;
   font-weight: 700;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
+  text-align: center;
 }
-.step p {
-  margin: 0;
+.step-card > p {
+  margin: 0 0 18px;
   color: var(--text-soft);
-  font-size: 15px;
-  line-height: 1.65;
+  font-size: 14.5px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* Lista de detalle dentro de cada paso */
+.step-list {
+  list-style: none;
+  margin: auto 0 0;
+  padding: 18px 0 0;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.step-list li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+.step-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 6px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-2), var(--teal));
+  box-shadow: 0 1px 3px rgba(30, 64, 175, .25);
+}
+.step-list li::after {
+  content: '';
+  position: absolute;
+  left: 3.5px; top: 8.5px;
+  width: 5px; height: 2.5px;
+  border-left: 1.5px solid #fff;
+  border-bottom: 1.5px solid #fff;
+  transform: rotate(-45deg);
+}
+
+@media (max-width: 980px) {
+  .process { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .process::before { display: none; }
+}
+@media (max-width: 520px) {
+  .process { grid-template-columns: 1fr; }
 }
 
 /* ── CTA band ────────────────────────────────────────────── */
