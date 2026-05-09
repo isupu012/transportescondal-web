@@ -1067,14 +1067,19 @@ body.has-pointer .cursor-blob {
   /* Container más estrecho */
   .container { padding: 0 18px; }
 
-  /* Topbar compacto + botón Acceso solo icono + hamburger.
-     Logo 44px en topbar 60px → 8px de respiro arriba y abajo. */
-  .topbar-inner { height: 60px; gap: 8px; padding: 0 18px; }
-  .brand-logo { height: 44px; }
-  .topbar .btn-access { width: 38px; height: 38px; padding: 8px; border-radius: 10px; }
-  .topbar .btn-access .btn-user { width: 16px; height: 16px; }
-  .hamburger { width: 38px; height: 38px; border-radius: 10px; }
-  .hamburger span { width: 18px; }
+  /* Topbar compacta — contenido alineado al BOTTOM con padding asimétrico
+     (más espacio arriba, casi nada abajo, como pediste). */
+  .topbar-inner {
+    height: 40px;
+    gap: 8px;
+    padding: 0 18px 2px;
+    align-items: flex-end;
+  }
+  .brand-logo { height: 32px; }
+  .topbar .btn-access { width: 32px; height: 32px; padding: 6px; border-radius: 8px; }
+  .topbar .btn-access .btn-user { width: 14px; height: 14px; }
+  .hamburger { width: 32px; height: 32px; border-radius: 8px; }
+  .hamburger span { width: 16px; }
   .topbar .btn-access {
     padding: 8px;
     width: 38px; height: 38px;
