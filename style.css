@@ -22,6 +22,9 @@
   --shadow-sm: 0 1px 2px rgba(15, 23, 42, .04), 0 1px 3px rgba(15, 23, 42, .06);
   --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, .07), 0 2px 4px -2px rgba(15, 23, 42, .05);
   --shadow-lg: 0 20px 40px -12px rgba(15, 23, 42, .15);
+  /* Fuentes — Plus Jakarta Sans para titulares (display), Inter para cuerpo */
+  --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -31,11 +34,23 @@ html, body {
   padding: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display font — Plus Jakarta Sans — para titulares con personalidad */
+.section-title,
+.hero-text h1,
+.cta-inner h2,
+.zones-cloud-head h3,
+.svc h3,
+.step-card h3 {
+  font-family: var(--font-display);
+  font-feature-settings: 'ss01', 'cv11';
 }
 
 a { color: var(--accent); text-decoration: none; transition: color .15s; }
@@ -140,11 +155,14 @@ img, svg { max-width: 100%; display: block; }
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--accent);
+  letter-spacing: 1.4px;
+  /* Tinte teal — diferencia respecto al azul corporativo del resto.
+     Pequeño detalle que rompe la monotonía azul. */
+  color: var(--teal);
   margin-bottom: 16px;
-  padding: 4px 12px;
-  background: var(--accent-light);
+  padding: 5px 14px;
+  background: linear-gradient(135deg, rgba(8, 145, 178, .08), rgba(59, 130, 246, .08));
+  border: 1px solid rgba(8, 145, 178, .18);
   border-radius: 99px;
 }
 .eyebrow.center { display: block; text-align: center; margin-left: auto; margin-right: auto; max-width: max-content; }
@@ -220,11 +238,13 @@ img, svg { max-width: 100%; display: block; }
   text-shadow: 0 2px 30px rgba(0, 0, 0, .25);
 }
 .grad {
-  /* Gradiente con tonos claros para que brille sobre el fondo oscuro */
-  background: linear-gradient(120deg, #93c5fd, #60a5fa 50%, #5eead4);
+  /* Gradiente con tonos cyan/teal para que brille sobre el fondo oscuro
+     y rompa la monotonía azul del hero. */
+  background: linear-gradient(120deg, #a5f3fc 0%, #67e8f9 35%, #67d4ea 65%, #93c5fd 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 0 24px rgba(103, 232, 249, .25));
 }
 .hero .lead {
   font-size: clamp(16px, 1.5vw, 19px);
@@ -487,27 +507,34 @@ img, svg { max-width: 100%; display: block; }
   display: block;
   z-index: 1;
 }
-/* El path se dibuja con stroke-dashoffset al cargar.
-   --path-len lo asigna JS desde getTotalLength(). */
+/* El path se dibuja con stroke-dashoffset CUANDO ENTRA EN VIEWPORT
+   (no al cargar). --path-len lo asigna JS desde getTotalLength().
+   La animación se dispara cuando el wrapper recibe .is-revealed. */
 .radius-shape {
   filter: drop-shadow(0 16px 36px rgba(30, 64, 175, .18));
   stroke-dasharray: var(--path-len, 2400);
   stroke-dashoffset: var(--path-len, 2400);
-  animation: radius-draw 1.6s ease-out 0.2s forwards;
+}
+.zones-radius-wrap.is-revealed .radius-shape {
+  animation: radius-draw 1.8s ease-out forwards;
 }
 @keyframes radius-draw {
   to { stroke-dashoffset: 0; }
 }
 
-/* Aparición escalonada de cada punto + etiqueta (delay vía --d inline). */
+/* Aparición escalonada de cada punto + etiqueta (delay vía --d inline).
+   También condicional a .is-revealed para que arranque con el scroll. */
 @keyframes city-fade-in {
-  from { opacity: 0; transform: translateY(4px); }
+  from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .zones-radius .extreme,
 .zones-radius .city-inner {
   opacity: 0;
-  animation: city-fade-in .5s ease-out forwards;
+}
+.zones-radius-wrap.is-revealed .extreme,
+.zones-radius-wrap.is-revealed .city-inner {
+  animation: city-fade-in .55s ease-out forwards;
   animation-delay: var(--d, 0s);
 }
 
@@ -553,6 +580,56 @@ img, svg { max-width: 100%; display: block; }
   .zones-radius .extreme,
   .zones-radius .city-inner { opacity: 1; animation: none; }
   .zones-radius .extreme circle { animation: none; }
+}
+
+/* ── Cursor blob global ──────────────────────────────────── */
+/* Halo azul tenue que sigue al cursor por toda la página. JS
+   actualiza --cx/--cy con easing. Solo se muestra en desktop con
+   ratón (no en touch). Z-index bajo para no tapar contenido. */
+.cursor-blob {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 480px;
+  height: 480px;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+                              rgba(59, 130, 246, .22) 0%,
+                              rgba(8, 145, 178, .14) 30%,
+                              rgba(59, 130, 246, .04) 55%,
+                              transparent 70%);
+  filter: blur(28px);
+  transform: translate3d(calc(var(--cx, 50vw) - 50%), calc(var(--cy, 50vh) - 50%), 0);
+  opacity: 0;
+  transition: opacity .5s ease;
+  will-change: transform;
+}
+body.has-pointer .cursor-blob {
+  opacity: 1;
+}
+@media (hover: none), (max-width: 1023px), (prefers-reduced-motion: reduce) {
+  .cursor-blob { display: none; }
+}
+
+/* ── Sistema de reveal on scroll ─────────────────────────── */
+/* Cualquier elemento con .reveal arranca invisible y desplazado un
+   poco hacia abajo. Al añadirle .is-revealed (vía IntersectionObserver
+   en JS) entra con un fade-in suave. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
+  transition-delay: var(--rd, 0s);
+  will-change: opacity, transform;
+}
+.reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
 }
 
 .zones-foot {

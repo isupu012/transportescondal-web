@@ -11,10 +11,13 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Cursor blob: halo de luz azul que sigue al cursor (solo desktop). -->
+  <div class="cursor-blob" aria-hidden="true"></div>
+
   <!-- ── Topbar ─────────────────────────────────────────── -->
   <header class="topbar">
     <div class="container topbar-inner">
@@ -57,10 +60,11 @@
 
     </div>
 
-    <!-- Barra de stats al pie del hero -->
+    <!-- Barra de stats al pie del hero (los numéricos se animan
+         de 0 al valor final cuando entran en viewport, ver JS). -->
     <div class="container stats-bar">
-      <div class="stat"><strong>+5.000</strong><span>clientes en cartera</span></div>
-      <div class="stat"><strong>+9.000</strong><span>expediciones gestionadas</span></div>
+      <div class="stat"><strong data-count="5000" data-prefix="+">+5.000</strong><span>clientes en cartera</span></div>
+      <div class="stat"><strong data-count="9000" data-prefix="+">+9.000</strong><span>expediciones gestionadas</span></div>
       <div class="stat"><strong>24/7</strong><span>seguimiento GPS</span></div>
       <div class="stat"><strong>BCN+</strong><span>provincia completa</span></div>
     </div>
@@ -69,11 +73,13 @@
   <!-- ── Servicios ──────────────────────────────────────── -->
   <section id="servicios" class="section section-light">
     <div class="container">
-      <span class="eyebrow center">Servicios</span>
-      <h2 class="section-title center">Todo lo que necesita el mueble</h2>
-      <p class="section-sub center">Del almacén al salón del cliente. Y todo lo que pasa entre medias — montajes, tapizados, retiradas, proyectos completos. Una sola empresa.</p>
+      <div class="section-head reveal">
+        <span class="eyebrow center">Servicios</span>
+        <h2 class="section-title center">Todo lo que necesita el mueble</h2>
+        <p class="section-sub center">Del almacén al salón del cliente. Y todo lo que pasa entre medias — montajes, tapizados, retiradas, proyectos completos. Una sola empresa.</p>
+      </div>
 
-      <div class="services-bento">
+      <div class="services-bento reveal" style="--rd: .15s">
         <article class="svc">
           <div class="svc-icon-wrap">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
@@ -84,7 +90,7 @@
 
         <article class="svc">
           <div class="svc-icon-wrap">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h6V3H3zM15 7h6V3h-6zM3 21h6v-4H3zM15 21h6v-4h-6z"/><path d="M9 5h6M9 19h6M5 9v8M19 9v8"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V11l5-3 5 3v10"/><path d="M13 21V7l5-3 5 3v14"/><path d="M3 21h21"/><path d="M6 14h.01M10 14h.01M16 10h.01M20 10h.01M16 14h.01M20 14h.01M16 18h.01M20 18h.01"/></svg>
           </div>
           <h3>B2B y B2C</h3>
           <p>Dos modelos en la misma operativa. <strong>B2B</strong>: distribución a tiendas y showrooms. <strong>B2C</strong>: entrega final a particulares. Mismo equipo, mismo cuidado.</p>
@@ -92,7 +98,7 @@
 
         <article class="svc">
           <div class="svc-icon-wrap">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8l-9-5-9 5v8l9 5z"/><path d="M3 8l9 5 9-5M12 13v10"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14v6"/><path d="M21 14v6"/><path d="M3 18h18"/><path d="M5 14h14a2 2 0 0 1 2 2v0H3v0a2 2 0 0 1 2-2z"/><path d="M5 14V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6"/><path d="M8 14V11M16 14V11"/></svg>
           </div>
           <h3>Cargas voluminosas y frágiles</h3>
           <p>Camiones adaptados a piezas grandes, espejos, cristal, mobiliario delicado. Manejo, embalaje y trincaje pensados para que llegue intacto.</p>
@@ -144,7 +150,7 @@
   <!-- ── Zonas operativas ───────────────────────────────── -->
   <section id="zonas" class="section">
     <div class="container">
-      <div class="zones-head">
+      <div class="zones-head reveal">
         <span class="eyebrow center">Cobertura</span>
         <h2 class="section-title center">Nuestro radio de acción</h2>
         <p class="section-sub center">
@@ -214,12 +220,14 @@
   <!-- ── Cómo trabajamos ────────────────────────────────── -->
   <section id="proceso" class="section section-light">
     <div class="container">
-      <span class="eyebrow center">Cómo trabajamos</span>
-      <h2 class="section-title center">Cuatro pasos. Cero sorpresas.</h2>
-      <p class="section-sub center">De la primera llamada al reparto diario optimizado. Sin papeleo eterno, sin promesas vacías — solo operativa que funciona.</p>
+      <div class="section-head reveal">
+        <span class="eyebrow center">Cómo trabajamos</span>
+        <h2 class="section-title center">Cuatro pasos. Cero sorpresas.</h2>
+        <p class="section-sub center">De la primera llamada al reparto diario optimizado. Sin papeleo eterno, sin promesas vacías — solo operativa que funciona.</p>
+      </div>
 
       <!-- Timeline horizontal: 4 pasos con línea de conexión entre nodos -->
-      <ol class="process">
+      <ol class="process reveal" style="--rd: .15s">
         <li class="step-card">
           <span class="step-badge">01</span>
           <div class="step-node">
@@ -296,10 +304,12 @@
   <!-- ── Contacto ───────────────────────────────────────── -->
   <section id="contacto" class="section">
     <div class="container">
-      <span class="eyebrow center">Contacto</span>
-      <h2 class="section-title center">Hablemos</h2>
+      <div class="section-head reveal">
+        <span class="eyebrow center">Contacto</span>
+        <h2 class="section-title center">Hablemos</h2>
+      </div>
 
-      <div class="contact-grid">
+      <div class="contact-grid reveal" style="--rd: .15s">
         <a class="contact-card" href="tel:+34936804530">
           <span class="contact-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -357,6 +367,98 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ── Cursor blob global ──────────────────────────────────
+    // Halo azul tenue que persigue al cursor con easing suave.
+    // Solo se activa en desktop con ratón. Posicionamos via CSS vars
+    // --cx/--cy en pixeles (no porcentajes) para que sea preciso.
+    (function () {
+      const blob = document.querySelector('.cursor-blob');
+      if (!blob) return;
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const noHover = matchMedia('(hover: none)').matches;
+      if (reduced || noHover || window.innerWidth < 1024) return;
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let bx = mx, by = my;
+      let active = false;
+      document.addEventListener('mousemove', (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        if (!active) {
+          active = true;
+          bx = mx; by = my;
+          document.body.classList.add('has-pointer');
+        }
+      });
+      document.addEventListener('mouseleave', () => {
+        document.body.classList.remove('has-pointer');
+        active = false;
+      });
+      const tick = () => {
+        bx += (mx - bx) * 0.12;
+        by += (my - by) * 0.12;
+        blob.style.setProperty('--cx', bx + 'px');
+        blob.style.setProperty('--cy', by + 'px');
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    })();
+
+    // ── Reveal on scroll (IntersectionObserver) ──────────────
+    // Todo elemento con .reveal arranca oculto. Al entrar en viewport
+    // se le añade .is-revealed (CSS lo desliza a su sitio con fade-in).
+    // .zones-radius-wrap.is-revealed dispara la animación del radio.
+    (function () {
+      const targets = document.querySelectorAll('.reveal, .zones-radius-wrap');
+      if (!targets.length || !('IntersectionObserver' in window)) {
+        targets.forEach((el) => el.classList.add('is-revealed'));
+        return;
+      }
+      const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
+      targets.forEach((el) => io.observe(el));
+    })();
+
+    // ── Counter-up para los stats del hero ───────────────────
+    // Anima los números de 0 al valor final cuando entran en viewport.
+    (function () {
+      const stats = document.querySelectorAll('.stat strong[data-count]');
+      if (!stats.length || !('IntersectionObserver' in window)) {
+        stats.forEach((s) => { s.textContent = s.dataset.label || s.textContent; });
+        return;
+      }
+      const fmt = (n) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      const animate = (el) => {
+        const target = parseInt(el.dataset.count, 10);
+        const prefix = el.dataset.prefix || '';
+        const duration = 1800;
+        const start = performance.now();
+        const tick = (now) => {
+          const t = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - t, 3);
+          const v = Math.round(target * eased);
+          el.textContent = prefix + fmt(v);
+          if (t < 1) requestAnimationFrame(tick);
+        };
+        el.textContent = prefix + '0';
+        requestAnimationFrame(tick);
+      };
+      const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      stats.forEach((el) => io.observe(el));
+    })();
 
     // Spotlight effect en las cards de servicios: el haz de luz azul
     // (definido en CSS con --mx/--my) sigue al cursor sobre cada card.
