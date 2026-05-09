@@ -1067,19 +1067,20 @@ body.has-pointer .cursor-blob {
   /* Container más estrecho */
   .container { padding: 0 18px; }
 
-  /* Topbar compacta — contenido alineado al BOTTOM con padding asimétrico
-     (más espacio arriba, casi nada abajo, como pediste). */
+  /* Topbar 40px con contenido CENTRADO. Logo lo más grande que cabe
+     (36px → 2px arriba y abajo). Botones del mismo alto que el logo
+     para que el centrado se perciba simétrico. */
   .topbar-inner {
     height: 40px;
     gap: 8px;
-    padding: 0 18px 2px;
-    align-items: flex-end;
+    padding: 0 18px;
+    align-items: center;
   }
-  .brand-logo { height: 32px; }
-  .topbar .btn-access { width: 32px; height: 32px; padding: 6px; border-radius: 8px; }
-  .topbar .btn-access .btn-user { width: 14px; height: 14px; }
-  .hamburger { width: 32px; height: 32px; border-radius: 8px; }
-  .hamburger span { width: 16px; }
+  .brand-logo { height: 36px; }
+  .topbar .btn-access { width: 36px; height: 36px; padding: 7px; border-radius: 9px; }
+  .topbar .btn-access .btn-user { width: 16px; height: 16px; }
+  .hamburger { width: 36px; height: 36px; border-radius: 9px; }
+  .hamburger span { width: 17px; }
   .topbar .btn-access {
     padding: 8px;
     width: 38px; height: 38px;
