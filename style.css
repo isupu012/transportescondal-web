@@ -1067,14 +1067,14 @@ body.has-pointer .cursor-blob {
   /* Container más estrecho */
   .container { padding: 0 18px; }
 
-  /* Topbar 56px con contenido CENTRADO. Altura mayor para que el logo
-     (36px) y los botones (36-38px) tengan ~10px de respiro arriba y
-     abajo y no se vean pegados al borde superior. */
+  /* Topbar 56px con contenido alineado AL BOTTOM. El logo PNG tiene
+     algo de whitespace inferior que descentraba visualmente los
+     elementos; pegándolo abajo el aire queda solo arriba. */
   .topbar-inner {
     height: 56px;
     gap: 8px;
     padding: 0 18px;
-    align-items: center;
+    align-items: flex-end;
   }
   .brand-logo { height: 36px; }
   .topbar .btn-access { width: 36px; height: 36px; padding: 7px; border-radius: 9px; }
