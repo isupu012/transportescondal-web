@@ -579,16 +579,17 @@ img, svg { max-width: 100%; display: block; }
   pointer-events: none;
   user-select: none;
   overflow: hidden;
-  /* Difuminar la marca de agua hacia los bordes: nítida dentro del radio,
-     se desvanece justo donde termina el contorno. Ahora círculo casi
-     perfecto (41% × 41%) para matchear la nueva forma. */
-  mask-image: radial-gradient(circle 41% at 50% 50%, #000 70%, transparent 100%);
-  -webkit-mask-image: radial-gradient(circle 41% at 50% 50%, #000 70%, transparent 100%);
+  /* Máscara ajustada al círculo perfecto (r=225 sobre viewBox 580×540
+     ≈ 38% del lado menor). Fundido suave en el borde para integrar
+     el watermark con el contorno radar. */
+  mask-image: radial-gradient(circle 38% at 50% 50%, #000 75%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle 38% at 50% 50%, #000 75%, transparent 100%);
 }
 .zones-watermark .wm-item {
   font-size: 13px;
   font-weight: 500;
-  color: rgba(15, 23, 42, .14);
+  /* Tinte azulado de marca en lugar de gris neutro */
+  color: rgba(30, 64, 175, .22);
   letter-spacing: -0.01em;
   white-space: nowrap;
   line-height: 1.45;
@@ -597,7 +598,7 @@ img, svg { max-width: 100%; display: block; }
    las grandes sin perder el efecto de marca de agua. */
 .zones-watermark .wm-item.is-big {
   font-weight: 600;
-  color: rgba(15, 23, 42, .22);
+  color: rgba(30, 64, 175, .32);
 }
 
 .zones-radius {
@@ -638,6 +639,50 @@ img, svg { max-width: 100%; display: block; }
   animation-delay: var(--d, 0s);
 }
 
+/* Anillos guía concéntricos — feel de radar. Muy sutil, sin robar protagonismo. */
+.zones-radius .guide-ring {
+  fill: none;
+  stroke: rgba(30, 64, 175, .14);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+.zones-radius .guide-cross {
+  stroke: rgba(30, 64, 175, .10);
+  stroke-width: 1;
+  stroke-dasharray: 2 6;
+}
+
+/* Tick marks cardinales sobre el contorno */
+.zones-radius .ticks line {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: .55;
+}
+
+/* Base operativa en el centro (El Papiol — HQ) */
+.zones-radius .center-base .center-dot {
+  fill: var(--accent);
+  stroke: #fff;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 2px 8px rgba(30, 64, 175, .45));
+}
+.zones-radius .center-base .center-pulse {
+  fill: none;
+  stroke: var(--accent-2);
+  stroke-width: 1.5;
+  transform-origin: 290px 270px;
+  /* Sin vector-effect: el stroke se escala con la animación, así
+     queda más fino al inicio (cerca del centro) y se afina al llegar
+     al borde por el fade. Vibe radar limpio. */
+  animation: center-pulse 4s cubic-bezier(.2, .7, .2, 1) infinite;
+}
+@keyframes center-pulse {
+  0%   { transform: scale(.02); opacity: .9; }
+  85%  { opacity: .15; }
+  100% { transform: scale(1);   opacity: 0; }
+}
+
 /* Extremos: protagonistas, color accent, peso 700, pulse sutil tras aparecer */
 .zones-radius .extreme circle {
   fill: var(--accent-2);
@@ -655,6 +700,11 @@ img, svg { max-width: 100%; display: block; }
   font-weight: 700;
   fill: var(--text);
   letter-spacing: -0.015em;
+  /* Halo blanco para tapar la marca de agua que quede detrás del texto */
+  paint-order: stroke fill;
+  stroke: #fff;
+  stroke-width: 4px;
+  stroke-linejoin: round;
 }
 @keyframes pulse-dot {
   0%, 75%, 100% { transform: scale(1); }
@@ -673,6 +723,10 @@ img, svg { max-width: 100%; display: block; }
   font-weight: 600;
   fill: var(--text-soft);
   letter-spacing: -0.01em;
+  paint-order: stroke fill;
+  stroke: #fff;
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1216,21 +1270,23 @@ body.has-pointer .cursor-blob {
   .step-list li { font-size: 12.5px; padding-left: 20px; }
 
   /* Cobertura — radio más grande en mobile, salimos del container
-     para usar todo el ancho de la pantalla. */
+     para usar todo el ancho de la pantalla. Aspect-ratio casi cuadrado
+     para ganar altura y dejar respiro a las labels exteriores. */
   .zones-head { margin-bottom: 24px; }
   #zonas .container > .zones-radius-wrap {
     max-width: none;
     margin-left: -18px;
     margin-right: -18px;
+    aspect-ratio: 1 / 1.05;
   }
-  .zones-watermark { padding: 60px 12px; gap: 2px 6px; }
-  .zones-watermark .wm-item { font-size: 9px; line-height: 1.3; }
+  .zones-watermark { padding: 70px 14px; gap: 3px 8px; }
+  .zones-watermark .wm-item { font-size: 10.5px; line-height: 1.35; }
   /* Etiquetas SVG más grandes — el radio gana protagonismo */
-  .zones-radius .extreme text { font-size: 14px; font-weight: 800; }
+  .zones-radius .extreme text { font-size: 17px; font-weight: 800; stroke-width: 5px; }
   .zones-radius .extreme circle { stroke-width: 2; }
-  .zones-radius .city-inner text { font-size: 12px; font-weight: 700; }
+  .zones-radius .city-inner text { font-size: 14px; font-weight: 700; stroke-width: 4.5px; }
   .zones-radius .sea-label { font-size: 9px; }
-  .zones-foot { font-size: 13.5px; margin-top: 24px; padding: 0 8px; }
+  .zones-foot { font-size: 14px; margin-top: 24px; padding: 0 8px; }
 
   /* CTA banner */
   .cta-band { padding: 48px 0; }

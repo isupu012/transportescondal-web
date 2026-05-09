@@ -169,24 +169,46 @@
 
         <svg class="zones-radius" viewBox="0 0 580 540" role="img" aria-label="Radio de acción geográfica" preserveAspectRatio="xMidYMid meet" style="overflow: visible;">
           <defs>
-            <linearGradient id="radius-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%"   stop-color="#3b82f6" stop-opacity=".10" />
-              <stop offset="100%" stop-color="#0891b2" stop-opacity=".18" />
-            </linearGradient>
+            <!-- Fill radial: claro en el centro, ligero teal en el borde — efecto radar -->
+            <radialGradient id="radius-grad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#3b82f6" stop-opacity=".04" />
+              <stop offset="55%"  stop-color="#3b82f6" stop-opacity=".10" />
+              <stop offset="100%" stop-color="#0891b2" stop-opacity=".22" />
+            </radialGradient>
             <linearGradient id="radius-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%"   stop-color="#1e40af" />
               <stop offset="100%" stop-color="#0891b2" />
             </linearGradient>
           </defs>
 
-          <!-- Path circular (proporción ~1.07:1, casi círculo perfecto).
-               Smooth polygon de 7 extremos en formación radial. -->
-          <path class="radius-shape" id="radius-path"
-                d="M 170,132 Q 290,40 382,82 Q 475,125 497,202 Q 520,280 482,357 Q 445,435 367,455 Q 290,475 212,455 Q 135,435 92,330 Q 50,225 170,132 Z"
+          <!-- Círculo perfecto centrado en (290,270) con radio 225. -->
+          <circle class="radius-shape" id="radius-path"
+                cx="290" cy="270" r="225"
                 fill="url(#radius-grad)"
                 stroke="url(#radius-stroke)"
-                stroke-width="2.5"
-                stroke-linejoin="round" />
+                stroke-width="2.5" />
+
+          <!-- Anillos guía concéntricos (radar feel) -->
+          <g class="guides">
+            <circle class="guide-ring" cx="290" cy="270" r="75" />
+            <circle class="guide-ring" cx="290" cy="270" r="150" />
+            <line class="guide-cross" x1="65"  y1="270" x2="515" y2="270" />
+            <line class="guide-cross" x1="290" y1="45"  x2="290" y2="495" />
+          </g>
+
+          <!-- Tick marks cardinales sobre el círculo (N, NE, E, SE, S, SW, W, NW) -->
+          <g class="ticks">
+            <line x1="290" y1="35"  x2="290" y2="55"  />
+            <line x1="290" y1="485" x2="290" y2="505" />
+            <line x1="55"  y1="270" x2="75"  y2="270" />
+            <line x1="505" y1="270" x2="525" y2="270" />
+          </g>
+
+          <!-- Punto base + pulso radar que se expande hasta el contorno -->
+          <g class="center-base">
+            <circle class="center-pulse" cx="290" cy="270" r="225" />
+            <circle class="center-dot"   cx="290" cy="270" r="5" />
+          </g>
 
           <!-- 7 ciudades "gordas" dentro del radio — estilo secundario.
                Posiciones aproximadamente geográficas. -->
@@ -200,21 +222,21 @@
             <g class="city-inner" style="--d:1.2s"><circle cx="430" cy="355" r="4"/><text x="442" y="359">Badalona</text></g>
           </g>
 
-          <!-- 7 puntos extremos en formación radial -->
+          <!-- 7 puntos extremos sobre el círculo perfecto (r=225, cx/cy=290/270) -->
           <g class="extremes">
-            <g class="extreme" style="--d:1.4s"><circle cx="290" cy="40" r="6"/><text x="290" y="22" text-anchor="middle">Ripoll</text></g>
-            <g class="extreme" style="--d:1.5s"><circle cx="475" cy="125" r="6"/><text x="490" y="120" text-anchor="start">Blanes</text></g>
-            <g class="extreme" style="--d:1.6s"><circle cx="520" cy="280" r="6"/><text x="535" y="285" text-anchor="start">Mataró</text></g>
-            <g class="extreme" style="--d:1.7s"><circle cx="445" cy="435" r="6"/><text x="460" y="450" text-anchor="start">Barcelona</text></g>
-            <g class="extreme" style="--d:1.8s"><circle cx="290" cy="475" r="6"/><text x="290" y="503" text-anchor="middle">Gavà</text></g>
-            <g class="extreme" style="--d:1.9s"><circle cx="135" cy="435" r="6"/><text x="135" y="463" text-anchor="middle">El Vendrell</text></g>
-            <g class="extreme" style="--d:2.0s"><circle cx="50" cy="225" r="6"/><text x="38" y="230" text-anchor="end">Cardona</text></g>
+            <g class="extreme" style="--d:1.4s"><circle cx="290" cy="45" r="6"/><text x="290" y="27" text-anchor="middle">Ripoll</text></g>
+            <g class="extreme" style="--d:1.5s"><circle cx="467" cy="131" r="6"/><text x="482" y="126" text-anchor="start">Blanes</text></g>
+            <g class="extreme" style="--d:1.6s"><circle cx="515" cy="280" r="6"/><text x="530" y="285" text-anchor="start">Mataró</text></g>
+            <g class="extreme" style="--d:1.7s"><circle cx="444" cy="434" r="6"/><text x="459" y="449" text-anchor="start">Barcelona</text></g>
+            <g class="extreme" style="--d:1.8s"><circle cx="290" cy="495" r="6"/><text x="290" y="523" text-anchor="middle">Gavà</text></g>
+            <g class="extreme" style="--d:1.9s"><circle cx="136" cy="434" r="6"/><text x="136" y="462" text-anchor="middle">El Vendrell</text></g>
+            <g class="extreme" style="--d:2.0s"><circle cx="69" cy="228" r="6"/><text x="82" y="233" text-anchor="start">Cardona</text></g>
           </g>
         </svg>
       </div>
 
       <p class="zones-foot">
-        ¿Vuestra zona no aparece? <a href="#contacto">Pregúntanos</a> — la cobertura crece cada mes.
+        ¿Vuestra zona no aparece? <a href="#contacto">Pregúntanos</a>
       </p>
     </div>
   </section>
@@ -537,6 +559,7 @@
       const featured = new Set([
         'Barcelona', 'Mataró', 'Blanes', 'Gavà', 'El Vendrell', 'Cardona', 'Ripoll',
         'Sabadell', 'Terrassa', 'Granollers', 'Badalona', 'Vic', 'Manresa', 'Igualada',
+        'El Papiol',
       ]);
       const remaining = items.filter((d) => !featured.has(d.name));
       const seedShuffle = (arr) => arr
