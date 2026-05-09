@@ -1067,11 +1067,11 @@ body.has-pointer .cursor-blob {
   /* Container más estrecho */
   .container { padding: 0 18px; }
 
-  /* Topbar 40px con contenido CENTRADO. Logo lo más grande que cabe
-     (36px → 2px arriba y abajo). Botones del mismo alto que el logo
-     para que el centrado se perciba simétrico. */
+  /* Topbar 56px con contenido CENTRADO. Altura mayor para que el logo
+     (36px) y los botones (36-38px) tengan ~10px de respiro arriba y
+     abajo y no se vean pegados al borde superior. */
   .topbar-inner {
-    height: 40px;
+    height: 56px;
     gap: 8px;
     padding: 0 18px;
     align-items: center;
