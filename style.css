@@ -313,13 +313,25 @@ img, svg { max-width: 100%; display: block; }
   flex-direction: column;
   padding: 56px 0 48px;
   overflow: hidden;
-  /* Foto local del camión + overlay azul oscuro. La imagen sirve de
-     ambiente, no de protagonista — overlay fuerte para que el texto
-     y la marca dominen el hero. */
-  background:
-    linear-gradient(to right, rgba(8, 12, 28, .92) 0%, rgba(15, 31, 88, .82) 45%, rgba(15, 49, 110, .65) 80%, rgba(15, 49, 110, .55) 100%),
-    url('hero.jpg') center / cover no-repeat;
+  background: #0a0e1f; /* fallback antes de que cargue la imagen */
   color: #fff;
+}
+/* Capa imagen — separada del overlay para poder animar (Ken Burns) */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('hero.jpg') center / cover no-repeat;
+  z-index: 0;
+  animation: hero-kenburns 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes hero-kenburns {
+  from { transform: scale(1) translate(0, 0); }
+  to   { transform: scale(1.07) translate(-1%, -1%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero::before { animation: none; }
 }
 /* hero-inner crece y centra contenido vertical; stats-bar queda abajo
    por flujo natural (margin-top: auto en .stats-bar). */
@@ -329,15 +341,17 @@ img, svg { max-width: 100%; display: block; }
   flex-direction: column;
   justify-content: center;
 }
-/* Decoración: líneas de carretera + glow extra encima del overlay */
+/* Overlay azul oscuro + radials decorativos. Encima de la imagen
+   (z-index 1) para que el texto destaque sobre cualquier escena. */
 .hero-bg {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(900px 500px at 85% 10%, rgba(96, 165, 250, .25), transparent 60%),
-    radial-gradient(700px 400px at 5% 60%, rgba(59, 130, 246, .18), transparent 60%);
+    radial-gradient(900px 500px at 85% 10%, rgba(96, 165, 250, .22), transparent 60%),
+    radial-gradient(700px 400px at 5% 60%, rgba(59, 130, 246, .16), transparent 60%),
+    linear-gradient(to right, rgba(2, 6, 23, .96) 0%, rgba(8, 12, 28, .92) 45%, rgba(15, 23, 42, .82) 80%, rgba(15, 23, 42, .75) 100%);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 .hero::after {
   /* Sutil viñeta inferior para fundir hacia el siguiente bloque */
@@ -346,13 +360,56 @@ img, svg { max-width: 100%; display: block; }
   bottom: 0; left: 0; right: 0; height: 160px;
   background: linear-gradient(to bottom, transparent, rgba(15, 23, 42, .35));
   pointer-events: none;
-  z-index: 0;
+  z-index: 2;
 }
 .hero-inner {
   position: relative;
-  z-index: 1;
+  z-index: 3;
   max-width: 760px;
   padding-bottom: 88px;
+}
+.hero .stats-bar { z-index: 3; }
+
+/* Glow cyan/teal detrás del bloque del título — hace que "Barcelona"
+   gradient brille con más cuerpo y atrae el ojo al h1. */
+.hero-text { position: relative; }
+.hero-text h1 {
+  position: relative;
+  isolation: isolate;
+}
+.hero-text h1::before {
+  content: '';
+  position: absolute;
+  top: -25%; left: -10%; right: -10%; bottom: -15%;
+  background: radial-gradient(ellipse at 28% 60%, rgba(103, 232, 249, .22), transparent 65%);
+  filter: blur(36px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Eyebrow con dot cyan pulsante a la izquierda — "live indicator",
+   transmite operativa real, en marcha. */
+.hero .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero .eyebrow::before {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #67e8f9;
+  box-shadow: 0 0 0 0 rgba(103, 232, 249, .55);
+  animation: hero-eyebrow-pulse 2.2s ease-out infinite;
+  flex-shrink: 0;
+}
+@keyframes hero-eyebrow-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(103, 232, 249, .55); }
+  70%  { box-shadow: 0 0 0 12px rgba(103, 232, 249, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(103, 232, 249, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero .eyebrow::before { animation: none; }
 }
 .hero .eyebrow {
   /* En modo dark el eyebrow azul claro queda más vivo */
@@ -1231,19 +1288,37 @@ body.has-pointer .cursor-blob {
     /* Mobile topbar = 68px → resto eso para encajar full-viewport sin scroll falso */
     min-height: calc(100vh - 68px);
     min-height: calc(100dvh - 68px);
-    padding: 56px 0 40px !important;
-    /* En mobile la imagen 'hero.jpg' se centra y solo se ve Montserrat;
-       desplazamos el background-position a la derecha (donde está el
-       camión) y reforzamos el overlay para mantener legibilidad. Tono
-       slate-navy más limpio (slate-950 → slate-900 → blue-800). */
-    background:
-      linear-gradient(180deg, rgba(2, 6, 23, .92) 0%, rgba(15, 23, 42, .86) 55%, rgba(30, 58, 138, .68) 100%),
-      url('hero.jpg') 75% center / cover no-repeat !important;
+    padding: 32px 0 32px !important;
+    background: #0a0e1f !important;
   }
-  .hero-inner { padding-bottom: 56px !important; }
+  /* Mobile: la imagen se desplaza al 75% horizontal para ver el camión */
+  .hero::before {
+    background: url('hero.jpg') 75% center / cover no-repeat !important;
+  }
+  /* Mobile: overlay aún más oscuro para máxima legibilidad sobre el camión */
+  .hero .hero-bg {
+    background:
+      linear-gradient(180deg, rgba(2, 6, 23, .98) 0%, rgba(8, 12, 28, .95) 50%, rgba(15, 23, 42, .88) 100%) !important;
+  }
+  .hero-inner { padding-bottom: 0 !important; padding-top: 0 !important; }
+  /* Distribuye eyebrow ARRIBA, h1 CENTRO, lead ABAJO — mejor reparto
+     vertical en pantallas largas. Reset de margins para que el flex
+     gestione el spacing. */
+  .hero .hero-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+    gap: 18px;
+  }
+  .hero .hero-text h1 { margin: 0 !important; }
+  .hero .lead { margin: 0 !important; }
+  .hero .eyebrow { margin: 0 !important; }
   .hero-text h1 { font-size: 36px !important; line-height: 1.1; margin-bottom: 16px; }
   .hero .lead { font-size: 14.5px; margin-bottom: 22px; }
-  .hero .eyebrow { font-size: 11px; padding: 4px 10px; margin-bottom: 14px; }
+  .hero .eyebrow { font-size: 10px; padding: 4px 12px; letter-spacing: 1.1px; margin-bottom: 14px; gap: 8px; }
+  .hero .eyebrow::before { width: 6px; height: 6px; }
 
   /* Stats — 2 pastillas lado a lado en mobile (no apiladas) */
   .stats-bar {
