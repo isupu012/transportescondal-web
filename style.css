@@ -246,10 +246,10 @@ img, svg { max-width: 100%; display: block; }
 }
 .section-title.center + .section-sub { text-align: center; margin-left: auto; margin-right: auto; }
 .section-sub.subtle {
-  font-size: 15px;
-  color: var(--text-mute);
-  font-weight: 400;
-  letter-spacing: .01em;
+  font-size: 18px;
+  color: var(--text-soft);
+  font-weight: 500;
+  letter-spacing: .005em;
 }
 
 /* ── Hero ────────────────────────────────────────────────── */
@@ -1073,11 +1073,11 @@ body.has-pointer .cursor-blob {
   /* Container más estrecho */
   .container { padding: 0 18px; }
 
-  /* Topbar 56px con contenido alineado AL BOTTOM. El logo PNG tiene
+  /* Topbar 68px con contenido alineado AL BOTTOM. El logo PNG tiene
      algo de whitespace inferior que descentraba visualmente los
      elementos; pegándolo abajo el aire queda solo arriba. */
   .topbar-inner {
-    height: 56px;
+    height: 68px;
     gap: 8px;
     padding: 0 18px;
     align-items: flex-end;
