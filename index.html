@@ -24,17 +24,30 @@
       <a href="#" class="brand">
         <img src="logo.png" alt="Transportes Condal" class="brand-logo" />
       </a>
-      <nav class="nav-links">
+      <nav class="nav-links" id="nav-links">
         <a href="#servicios">Servicios</a>
         <a href="#zonas">Zonas</a>
         <a href="#proceso">Cómo trabajamos</a>
         <a href="#contacto">Contacto</a>
       </nav>
-      <a class="btn btn-primary btn-access" href="https://app.transportescondal.com" aria-label="Acceso">
-        <svg class="btn-user" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span class="btn-text">Acceso</span>
-        <svg class="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
+      <div class="topbar-actions">
+        <a class="btn btn-primary btn-access" href="https://app.transportescondal.com" aria-label="Acceso">
+          <svg class="btn-user" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span class="btn-text">Acceso</span>
+          <svg class="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false" aria-controls="mobile-menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Drawer móvil -->
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <a href="#servicios">Servicios</a>
+      <a href="#zonas">Zonas</a>
+      <a href="#proceso">Cómo trabajamos</a>
+      <a href="#contacto">Contacto</a>
     </div>
   </header>
 
@@ -44,19 +57,12 @@
     <div class="container hero-inner">
       <div class="hero-text">
         <span class="eyebrow">Especialistas en mobiliario</span>
-        <h1>Distribución de mobiliario<br/><span class="grad">por toda Barcelona</span>, cada día.</h1>
+        <h1>Distribución de mobiliario en <span class="grad">Barcelona</span>.</h1>
         <p class="lead">
           Llevamos años moviendo muebles a tiendas, particulares y grandes proyectos
           por toda la provincia. Flota propia, seguimiento en tiempo real y experiencia
           con cargas voluminosas, montajes y entregas delicadas.
         </p>
-        <div class="hero-cta">
-          <a class="btn btn-primary btn-lg" href="https://app.transportescondal.com">
-            Acceder al panel
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-          <a class="btn btn-ghost btn-lg" href="#contacto">Hablemos</a>
-        </div>
       </div>
 
     </div>
@@ -65,9 +71,7 @@
          de 0 al valor final cuando entran en viewport, ver JS). -->
     <div class="container stats-bar">
       <div class="stat"><strong data-count="5000" data-prefix="+">+5.000</strong><span>clientes en cartera</span></div>
-      <div class="stat"><strong data-count="9000" data-prefix="+">+9.000</strong><span>expediciones gestionadas</span></div>
-      <div class="stat"><strong>24/7</strong><span>seguimiento GPS</span></div>
-      <div class="stat"><strong>BCN+</strong><span>provincia completa</span></div>
+      <div class="stat"><strong data-count="250" data-prefix="+">+250</strong><span>entregas diarias</span></div>
     </div>
   </section>
 
@@ -368,6 +372,45 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ── Hamburger menu (drawer móvil) ────────────────────────
+    (function () {
+      const btn = document.getElementById('hamburger');
+      const menu = document.getElementById('mobile-menu');
+      if (!btn || !menu) return;
+      const toggle = (open) => {
+        const isOpen = open !== undefined
+          ? open
+          : btn.getAttribute('aria-expanded') !== 'true';
+        btn.setAttribute('aria-expanded', isOpen);
+        menu.classList.toggle('is-open', isOpen);
+        menu.setAttribute('aria-hidden', !isOpen);
+      };
+      btn.addEventListener('click', () => toggle());
+      menu.querySelectorAll('a').forEach((a) => {
+        a.addEventListener('click', () => toggle(false));
+      });
+      // Cerrar al cambiar a desktop
+      matchMedia('(min-width: 769px)').addEventListener('change', (e) => {
+        if (e.matches) toggle(false);
+      });
+    })();
+
+    // ── Step-cards colapsables en mobile ─────────────────────
+    // En desktop la card muestra todo. En mobile el chevron permite
+    // expandir/colapsar el bullet list.
+    (function () {
+      const cards = document.querySelectorAll('.step-card');
+      const isMobile = () => window.innerWidth <= 768;
+      cards.forEach((card) => {
+        card.addEventListener('click', (e) => {
+          if (!isMobile()) return;
+          // Evitar que clicks en links dentro de la card abran/cierren
+          if (e.target.closest('a')) return;
+          card.classList.toggle('is-open');
+        });
+      });
+    })();
 
     // ── Cursor blob global ──────────────────────────────────
     // Halo azul tenue que persigue al cursor con easing suave.

@@ -106,6 +106,70 @@ img, svg { max-width: 100%; display: block; }
   font-size: 14px;
 }
 .nav-links a:hover { color: var(--text); }
+.topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+/* Hamburger button — solo visible en mobile */
+.hamburger {
+  display: none;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border-strong);
+  background: #fff;
+  border-radius: 10px;
+  padding: 0;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: background .18s, border-color .18s;
+}
+.hamburger:hover { background: var(--bg-soft); border-color: var(--accent-2); }
+.hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 1px;
+  transition: transform .25s ease, opacity .25s ease;
+}
+.hamburger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.hamburger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Drawer menu — slide-down debajo del topbar */
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, .98);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 0;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s ease;
+}
+.mobile-menu.is-open {
+  max-height: 320px;
+}
+.mobile-menu a {
+  padding: 14px 28px;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 15px;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { background: var(--bg-soft); color: var(--accent); }
 
 /* ── Botones ─────────────────────────────────────────────── */
 .btn {
@@ -976,8 +1040,8 @@ body.has-pointer .cursor-blob {
   /* Container más estrecho */
   .container { padding: 0 18px; }
 
-  /* Topbar compacto + botón Acceso solo icono */
-  .topbar-inner { height: 56px; gap: 12px; }
+  /* Topbar compacto + botón Acceso solo icono + hamburger */
+  .topbar-inner { height: 56px; gap: 8px; }
   .brand-logo { height: 26px; }
   .topbar .btn-access {
     padding: 8px;
@@ -988,63 +1052,139 @@ body.has-pointer .cursor-blob {
   .topbar .btn-access .btn-text,
   .topbar .btn-access .btn-arrow { display: none; }
   .topbar .btn-access .btn-user { display: block; }
+  .hamburger { display: flex; }
+  .mobile-menu { display: flex; }
 
   /* Section padding global reducido — adios a la densidad */
   .section { padding: 56px 0 !important; }
 
-  /* Hero compacto */
-  .hero { padding: 56px 0 24px !important; }
+  /* Hero compacto + foto reposicionada para mostrar el camión */
+  .hero {
+    padding: 56px 0 24px !important;
+    /* En mobile la imagen 'hero.jpg' se centra y solo se ve Montserrat;
+       desplazamos el background-position a la derecha (donde está el
+       camión) y reforzamos el overlay para mantener legibilidad. */
+    background:
+      linear-gradient(to bottom, rgba(8, 12, 28, .85) 0%, rgba(15, 31, 88, .80) 50%, rgba(15, 49, 110, .70) 100%),
+      url('hero.jpg') 75% center / cover no-repeat !important;
+  }
   .hero-inner { padding-bottom: 36px !important; }
-  .hero-text h1 { font-size: 32px !important; line-height: 1.1; margin-bottom: 16px; }
+  .hero-text h1 { font-size: 36px !important; line-height: 1.1; margin-bottom: 16px; }
   .hero .lead { font-size: 14.5px; margin-bottom: 22px; }
-  .hero-cta { flex-direction: column; gap: 10px; align-items: stretch; }
-  .hero-cta .btn { width: 100%; padding: 13px 20px !important; font-size: 14px; }
   .hero .eyebrow { font-size: 11px; padding: 4px 10px; margin-bottom: 14px; }
 
-  /* Stats en una sola columna (override del bloque 900px) */
+  /* Stats — solo 2 datos: 1 columna apilada en mobile */
   .stats-bar { grid-template-columns: 1fr; padding: 16px 12px; margin-top: -8px; }
   .stat {
     border-right: none !important;
     border-bottom: 1px solid rgba(255, 255, 255, .12);
-    padding: 12px 16px;
+    padding: 14px 16px;
   }
   .stat:last-child { border-bottom: none; }
-  .stat strong { font-size: 22px !important; }
-  .stat span { font-size: 10.5px; }
+  .stat strong { font-size: 26px !important; }
+  .stat span { font-size: 11px; }
 
   /* Section heads compactos */
   .section-title { font-size: 26px !important; line-height: 1.15 !important; letter-spacing: -0.02em; }
   .section-sub { font-size: 14.5px !important; line-height: 1.55; margin-bottom: 28px !important; }
   .eyebrow { font-size: 11px; padding: 4px 10px; letter-spacing: 1.2px; }
 
-  /* Servicios compactos */
-  .services-bento { gap: 12px !important; margin-top: 32px !important; }
-  .svc { padding: 22px 20px 20px !important; }
-  .svc h3 { font-size: 16.5px; margin-bottom: 8px; }
-  .svc p { font-size: 13.5px; line-height: 1.55; }
-  .svc-icon-wrap { width: 44px; height: 44px; margin-bottom: 14px; border-radius: 11px; }
-  .svc-icon-wrap svg { width: 20px; height: 20px; }
+  /* Servicios compactos — 2 columnas en mobile */
+  .services-bento {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    margin-top: 32px !important;
+  }
+  .svc { padding: 18px 14px 16px !important; }
+  .svc h3 { font-size: 14.5px; margin-bottom: 6px; line-height: 1.2; }
+  .svc p { font-size: 12.5px; line-height: 1.45; }
+  .svc-icon-wrap { width: 38px; height: 38px; margin-bottom: 12px; border-radius: 10px; }
+  .svc-icon-wrap svg { width: 18px; height: 18px; }
 
-  /* Cómo trabajamos compacto */
-  .process { gap: 14px; margin-top: 32px !important; }
+  /* Cómo trabajamos — cards colapsables (tap para expandir bullets) */
+  .process { gap: 10px; margin-top: 32px !important; }
   .process::before { display: none; }
-  .step-card { padding: 22px 20px 20px; }
-  .step-card h3 { font-size: 17px; margin-bottom: 8px; }
-  .step-card > p { font-size: 13.5px; line-height: 1.55; margin-bottom: 14px; }
-  .step-list { padding-top: 14px; gap: 6px; }
+  .step-card {
+    padding: 18px 18px 18px 76px;
+    cursor: pointer;
+    min-height: 0;
+  }
+  /* Layout horizontal compacto: nodo a la izquierda, contenido a la derecha */
+  .step-card .step-node {
+    position: absolute;
+    top: 18px;
+    left: 16px;
+    width: 48px;
+    height: 48px;
+    margin: 0;
+  }
+  .step-card .step-node svg { width: 20px; height: 20px; }
+  .step-card h3 {
+    font-size: 16px;
+    margin: 0 0 4px;
+    text-align: left;
+    padding-right: 28px; /* hueco para el chevron */
+  }
+  .step-card > p {
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+    text-align: left;
+  }
+  .step-badge {
+    top: 14px;
+    right: 14px;
+    padding: 2px 7px;
+    font-size: 10px;
+  }
+  /* Chevron indicador de expand */
+  .step-card::after {
+    content: '';
+    position: absolute;
+    right: 18px;
+    bottom: 22px;
+    width: 9px;
+    height: 9px;
+    border-right: 2px solid var(--accent-2);
+    border-bottom: 2px solid var(--accent-2);
+    transform: rotate(45deg);
+    transition: transform .25s ease;
+  }
+  .step-card.is-open::after {
+    transform: rotate(-135deg);
+    bottom: 18px;
+  }
+  /* Lista de bullets oculta por defecto, visible al expandir */
+  .step-list {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0;
+    border-top: 0;
+    margin: 0;
+    transition: max-height .35s ease, margin .35s ease, padding .35s ease;
+  }
+  .step-card.is-open .step-list {
+    max-height: 200px;
+    padding: 14px 0 4px;
+    margin-top: 12px;
+    border-top: 1px dashed var(--border);
+  }
   .step-list li { font-size: 12.5px; padding-left: 20px; }
-  .step-node { width: 56px; height: 56px; margin-bottom: 14px; }
-  .step-node svg { width: 22px; height: 22px; }
-  .step-badge { top: 14px; right: 16px; padding: 3px 9px; font-size: 11px; }
 
-  /* Cobertura — mapa más contenido */
-  .zones-head { margin-bottom: 28px; }
-  .zones-radius-wrap { max-width: 100%; }
-  .zones-watermark { padding: 60px 24px; gap: 2px 8px; }
-  .zones-watermark .wm-item { font-size: 9.5px; line-height: 1.35; }
-  .zones-radius .extreme text { font-size: 10px; }
+  /* Cobertura — radio más grande en mobile, salimos del container
+     para usar todo el ancho de la pantalla. */
+  .zones-head { margin-bottom: 24px; }
+  #zonas .container > .zones-radius-wrap {
+    max-width: none;
+    margin-left: -18px;
+    margin-right: -18px;
+  }
+  .zones-watermark { padding: 60px 12px; gap: 2px 6px; }
+  .zones-watermark .wm-item { font-size: 9px; line-height: 1.3; }
+  /* Etiquetas SVG más grandes — el radio gana protagonismo */
+  .zones-radius .extreme text { font-size: 14px; font-weight: 800; }
   .zones-radius .extreme circle { stroke-width: 2; }
-  .zones-radius .city-inner text { font-size: 9px; }
+  .zones-radius .city-inner text { font-size: 12px; font-weight: 700; }
   .zones-radius .sea-label { font-size: 9px; }
   .zones-foot { font-size: 13.5px; margin-top: 24px; padding: 0 8px; }
 
