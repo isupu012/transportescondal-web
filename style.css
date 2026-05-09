@@ -323,7 +323,7 @@ img, svg { max-width: 100%; display: block; }
   inset: 0;
   background: url('hero.jpg') center / cover no-repeat;
   z-index: 0;
-  animation: hero-kenburns 22s ease-in-out infinite alternate;
+  animation: hero-kenburns 15s ease-in-out infinite alternate;
   will-change: transform;
   transform-origin: 60% 50%;
 }
@@ -350,7 +350,7 @@ img, svg { max-width: 100%; display: block; }
   background:
     radial-gradient(900px 500px at 85% 10%, rgba(96, 165, 250, .22), transparent 60%),
     radial-gradient(700px 400px at 5% 60%, rgba(59, 130, 246, .16), transparent 60%),
-    linear-gradient(to right, rgba(2, 6, 23, .92) 0%, rgba(8, 12, 28, .86) 45%, rgba(15, 23, 42, .75) 80%, rgba(15, 23, 42, .68) 100%);
+    linear-gradient(to right, rgba(2, 6, 23, .94) 0%, rgba(8, 12, 28, .88) 45%, rgba(15, 23, 42, .78) 80%, rgba(15, 23, 42, .72) 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -371,22 +371,8 @@ img, svg { max-width: 100%; display: block; }
 }
 .hero .stats-bar { z-index: 3; }
 
-/* Glow cyan/teal detrás del bloque del título — hace que "Barcelona"
-   gradient brille con más cuerpo y atrae el ojo al h1. */
 .hero-text { position: relative; }
-.hero-text h1 {
-  position: relative;
-  isolation: isolate;
-}
-.hero-text h1::before {
-  content: '';
-  position: absolute;
-  top: -25%; left: -10%; right: -10%; bottom: -15%;
-  background: radial-gradient(ellipse at 28% 60%, rgba(103, 232, 249, .22), transparent 65%);
-  filter: blur(36px);
-  z-index: -1;
-  pointer-events: none;
-}
+.hero-text h1 { position: relative; }
 
 /* Eyebrow con dot cyan pulsante a la izquierda — "live indicator",
    transmite operativa real, en marcha. */
@@ -447,7 +433,6 @@ img, svg { max-width: 100%; display: block; }
 .hero .lead strong {
   color: #fff;
   font-weight: 700;
-  background: linear-gradient(120deg, transparent 0, transparent 92%, rgba(103, 232, 249, .35) 92%);
 }
 .hero-cta {
   display: flex;
@@ -1296,10 +1281,14 @@ body.has-pointer .cursor-blob {
   .hero::before {
     background: url('hero.jpg') 75% center / cover no-repeat !important;
   }
-  /* Mobile: overlay oscuro pero dejando ver el camión */
+  /* Mobile: overlay oscuro pero permeable — el camión se intuye
+     como ambiente sin tapar la legibilidad del texto. */
   .hero .hero-bg {
     background:
-      linear-gradient(180deg, rgba(2, 6, 23, .94) 0%, rgba(8, 12, 28, .88) 50%, rgba(15, 23, 42, .80) 100%) !important;
+      linear-gradient(180deg,
+        rgba(2, 6, 23, .94) 0%,
+        rgba(8, 12, 28, .89) 50%,
+        rgba(15, 23, 42, .80) 100%) !important;
   }
   .hero-inner { padding-bottom: 0 !important; padding-top: 0 !important; }
   /* Distribuye eyebrow ARRIBA, h1 CENTRO, lead ABAJO — mejor reparto
