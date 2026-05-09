@@ -1076,7 +1076,7 @@ body.has-pointer .cursor-blob {
     padding: 0 18px;
     align-items: flex-end;
   }
-  .brand-logo { height: 36px; }
+  .brand-logo { height: 48px; }
   .topbar .btn-access { width: 36px; height: 36px; padding: 7px; border-radius: 9px; }
   .topbar .btn-access .btn-user { width: 16px; height: 16px; }
   .hamburger { width: 36px; height: 36px; border-radius: 9px; }
