@@ -1101,17 +1101,18 @@ body.has-pointer .cursor-blob {
   /* Section padding global reducido — adios a la densidad */
   .section { padding: 56px 0 !important; }
 
-  /* Hero compacto + foto reposicionada para mostrar el camión */
+  /* Hero con respiro + foto reposicionada para mostrar el camión */
   .hero {
-    padding: 56px 0 24px !important;
+    padding: 88px 0 56px !important;
     /* En mobile la imagen 'hero.jpg' se centra y solo se ve Montserrat;
        desplazamos el background-position a la derecha (donde está el
-       camión) y reforzamos el overlay para mantener legibilidad. */
+       camión) y reforzamos el overlay para mantener legibilidad. Tono
+       slate-navy más limpio (slate-950 → slate-900 → blue-800). */
     background:
-      linear-gradient(to bottom, rgba(8, 12, 28, .85) 0%, rgba(15, 31, 88, .80) 50%, rgba(15, 49, 110, .70) 100%),
+      linear-gradient(180deg, rgba(2, 6, 23, .92) 0%, rgba(15, 23, 42, .86) 55%, rgba(30, 58, 138, .68) 100%),
       url('hero.jpg') 75% center / cover no-repeat !important;
   }
-  .hero-inner { padding-bottom: 36px !important; }
+  .hero-inner { padding-bottom: 56px !important; }
   .hero-text h1 { font-size: 36px !important; line-height: 1.1; margin-bottom: 16px; }
   .hero .lead { font-size: 14.5px; margin-bottom: 22px; }
   .hero .eyebrow { font-size: 11px; padding: 4px 10px; margin-bottom: 14px; }
