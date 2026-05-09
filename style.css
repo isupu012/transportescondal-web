@@ -652,14 +652,6 @@ img, svg { max-width: 100%; display: block; }
   stroke-dasharray: 2 6;
 }
 
-/* Tick marks cardinales sobre el contorno */
-.zones-radius .ticks line {
-  stroke: var(--accent);
-  stroke-width: 2;
-  stroke-linecap: round;
-  opacity: .55;
-}
-
 /* Base operativa en el centro (El Papiol — HQ) */
 .zones-radius .center-base .center-dot {
   fill: var(--accent);
